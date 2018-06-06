@@ -1,0 +1,11 @@
+security:
+  user:
+    name: spring
+    password: 1234
+
+management:
+  #server.port: 8081
+  context-path: /manage
+  security:
+    enabled: true
+    roles: ACTRADMIN

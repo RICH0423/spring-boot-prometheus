@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  grafana:
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=1234
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    links:
+      - prometheus
+    image: grafana/grafana
+
+  prometheus:
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    image: prom/prometheus
+
+  metric-api:
+    ports:
+      - 8080:8080
+    image: rich0423/spring-metrics-prometheus
+
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
